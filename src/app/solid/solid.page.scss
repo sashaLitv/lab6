@@ -1,0 +1,85 @@
+ion-list ion-item:nth-child(odd) {
+    --background: #f2f2f2; 
+  }
+  
+ion-list ion-item:nth-child(even) {
+    --background: #ffffff;
+}
+
+.custom-button{
+    margin-top: 3vh;
+    padding: 20px;
+    width: 20%;
+    max-width: 180px;
+    background-color: black;
+}
+
+.image-container {
+    position: relative;
+}
+.vehicle-image {
+    width: 13vw;
+    max-width: 140px;
+    min-width: 70px;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 7vh;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+}
+
+.special-container-button{
+    margin-top: 1vh;
+    background-color: rgb(223, 230, 237);
+    border-radius: 5px;
+    border: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.special-container-button button{
+    width: 20%;
+    height: auto;
+    max-width: 250px;
+}
+.special-container-button:hover, .status-display:hover {
+    background-color: rgb(206, 218, 236); 
+}
+
+.status-display {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 10px;
+    background-color:rgb(223, 230, 237);
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    color: #514f4f;
+}
+
+h2 {
+    font-size: 1.2rem;
+    text-align: center;
+    color: #666565; 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 2;
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .vehicle-image {
+      top: 7%;
+    }
+  }

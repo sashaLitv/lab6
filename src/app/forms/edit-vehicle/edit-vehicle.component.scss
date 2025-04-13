@@ -1,0 +1,28 @@
+.form-container {
+    max-width: 900px;
+    margin: auto; 
+    padding: 10px;
+}
+
+.button-container {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+}
+.button-container button {
+    max-width: 300px;
+    width: 100%;
+}
+
+.datetime-row{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 8px;
+}
+.adaptive-datetime {
+    flex: 1 1 200px;
+    min-width: 150px;
+    max-width: 100%;
+}

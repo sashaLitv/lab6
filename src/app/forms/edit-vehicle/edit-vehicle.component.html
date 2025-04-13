@@ -1,0 +1,70 @@
+<ion-title class="custom-paragraph">Редагування</ion-title>
+<div class="form-container">
+    <ion-form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+      <ion-list>
+        
+        <ion-item>
+          <ion-label position="stacked">ID</ion-label>
+          <ion-input type="text" [value]="vehicle.getID()" disabled></ion-input>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label position="stacked">Type</ion-label>
+          <ion-input type="text" [value]="vehicle.getType()" disabled></ion-input>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label position="floating">Rental Price</ion-label>
+          <ion-input type="number" formControlName="rentalPrice"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="vehicleForm.get('rentalPrice')?.invalid && vehicleForm.get('rentalPrice')?.touched">
+          <small *ngIf="vehicleForm.get('rentalPrice')?.hasError('required')">Rental Price є обов'язковим.</small>
+          <small *ngIf="vehicleForm.get('rentalPrice')?.hasError('min')">Rental Price повинен бути більшим за 0.</small>
+        </ion-text>
+  
+        <ion-item lines="none">
+          <ion-label>Availability</ion-label>
+          <ion-checkbox slot="start" formControlName="available"></ion-checkbox>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label position="stacked">Last Rental Date</ion-label>
+          <ion-input formControlName="lastRentDay" type="date"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="vehicleForm.get('lastRentDay')?.invalid && vehicleForm.get('lastRentDay')?.touched">
+          <small *ngIf="vehicleForm.get('lastRentDay')?.hasError('invalidDate')">Введіть коректну дату.</small>
+        </ion-text>
+  
+        <ion-item *ngIf="vehicleForm.get('type')?.value === types[0]">
+          <ion-label for="abs">ABS</ion-label>
+          <ion-checkbox slot="start" formControlName="abs"></ion-checkbox>
+        </ion-item>
+  
+        <ion-item *ngIf="vehicleForm.get('type')?.value === types[1]">
+          <ion-label position="stacked">Passenger Seats</ion-label>
+          <ion-input type="number" formControlName="passengerSeats"></ion-input>
+        </ion-item>
+  
+        <ion-item *ngIf="vehicleForm.get('type')?.value === types[2]">
+          <ion-label position="stacked">Cargo Capacity (kg)</ion-label>
+          <ion-input type="number" step="100" formControlName="cargoCapacity"></ion-input>
+        </ion-item>
+  
+        <ion-item *ngIf="vehicleForm.get('type')?.value === types[3]">
+          <ion-label position="stacked">Brake Type</ion-label>
+          <ion-select formControlName="brakeType" interface="modal">
+            <ion-select-option value="Disc">Disc</ion-select-option>
+            <ion-select-option value="Rim">Rim</ion-select-option>
+            <ion-select-option value="Drum">Drum</ion-select-option>
+            <ion-select-option value="Coaster">Coaster</ion-select-option>
+          </ion-select>
+        </ion-item>
+  
+        <div class="button-container">
+          <button type="submit" (click)="onSubmit()">Save Changes</button>
+        </div>
+  
+      </ion-list>
+    </ion-form>
+</div>
+  

@@ -1,0 +1,124 @@
+<app-my-header name="Лабораторна роботи №6-7"></app-my-header>
+
+<ion-content>
+  <ion-card class="custom-card">
+    <ion-card-header>
+      <ion-card-title class="custom-card-title">Мій варіант</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="custom-card-content">
+      <p>Тема: Прокат автомобілів: Легкові машини, вантажівки, мотоцикли. <br>
+        SOLID: Додати нову категорію товарів.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="custom-paragraph"> Запропонувати транспорт </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <h2>В даному розділі ви можете запропонувати транспорт  <br> для прокату. 
+        Ми намагаємось обробляти заявки як найшвидше.</h2>
+
+      <div class="special-container-button" style="background-color: white;">
+        <button class="custom-button" (click)="openAddForm()">Додати</button>
+      </div>
+      <app-add-vehicle
+        *ngIf="showAddVehicleModal"
+        (vehicleAdd)="addVehicle($event)">
+      </app-add-vehicle>
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="custom-paragraph"> Прокат транспорту </ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="custom-card-content">
+      <h2>В даному розділі ви можете переглянути доступні автомобілі для прокату. <br>
+        Виберіть автомобіль, щоб дізнатися більше про нього та забронювати його.</h2>
+      <ion-card class="image-container" *ngFor="let vehicle of vehicleService.vehicles let i = index">
+        <ion-img 
+          *ngIf="vehicle.getType() === 'Passenger Car'" 
+          src="../../assets/picture/car.png" class="vehicle-image">
+        </ion-img>
+      
+        <ion-img 
+          *ngIf="vehicle.getType() === 'Truck'" 
+          src="../../assets/picture/truck.png" class="vehicle-image">
+        </ion-img>
+      
+        <ion-img 
+          *ngIf="vehicle.getType() === 'Motorbike'" 
+          src="../../assets/picture/motorbike.png" class="vehicle-image">
+        </ion-img>
+      
+        <ion-img 
+          *ngIf="vehicle.getType() === 'Bicycle'" 
+          src="../../assets/picture/bicycle.png" class="vehicle-image">
+        </ion-img>
+      
+        <ion-card-header>
+          <ion-card-title style="font-size: 1.3rem; margin-top: 14vh;" class="custom-paragraph">{{ vehicle.getType() }} - (ID: {{ vehicle.getID() }})</ion-card-title>
+        </ion-card-header>
+      
+        <ion-card-content>
+          <ion-list>
+            <ion-item *ngFor="let detail of vehicle.getDetails()">
+              <ion-label>{{ detail }}</ion-label>
+            </ion-item>
+          </ion-list>
+          <div *ngIf="!vehicle.isAvailable()">
+              <div class="status-display">
+                <p>{{ getStatusMessage(vehicle) }}</p>
+              </div>
+            <ng-container [ngSwitch]="vehicle.constructor.name">
+              
+              <div class="special-container-button" *ngSwitchCase="'Motorbike'">
+                <button (click)="callSpecialFunction('move', vehicle)">Рух</button>
+                <button (click)="callSpecialFunction('drift', vehicle)">Дрифт</button>
+                <button (click)="callSpecialFunction('stop', vehicle)">Зупинка</button>
+                <button (click)="callSpecialFunction('wheelie', vehicle)">Трюк ‘Віллі’</button>
+              </div>
+             
+              <div class="special-container-button" *ngSwitchCase="'Bicycle'">
+                <button (click)="callSpecialFunction('ride', vehicle)">Крутити</button>
+                <button (click)="callSpecialFunction('stop', vehicle)">Зупинка</button>
+                <button (click)="callSpecialFunction('wheelie', vehicle)">Трюк ‘Віллі’</button>
+                <button (click)="callSpecialFunction('remove', vehicle)">Зняти ланцюг</button>
+                <button (click)="callSpecialFunction('reinstall', vehicle)">Встановити ланцюг</button>
+              </div>
+          
+              <div class="special-container-button" *ngSwitchCase="'Truck'">
+                <button (click)="callSpecialFunction('move', vehicle)">Рух</button>
+                <button (click)="callSpecialFunction('stop', vehicle)">Зупинка</button>
+                <button (click)="callSpecialFunction('current', vehicle)">Поточна завантаженість</button>
+                <button (click)="callSpecialFunction('load', vehicle)">Завантажити</button>
+                <button (click)="callSpecialFunction('unload', vehicle)">Розвантажити</button>
+              </div>
+          
+              <div class="special-container-button" *ngSwitchCase="'PassengerCar'">
+                <button (click)="callSpecialFunction('move', vehicle)">Рух</button>
+                <button (click)="callSpecialFunction('drift', vehicle)">Дрифт</button>
+                <button (click)="callSpecialFunction('stop', vehicle)">Зупинка</button>
+                <button (click)="callSpecialFunction('sit', vehicle)">Сісти</button>
+                <button (click)="callSpecialFunction('avaliable', vehicle)">Доступні місця</button>
+                <button (click)="callSpecialFunction('exit', vehicle)">Вийти всім</button>
+              </div>
+      
+            </ng-container>
+          </div>
+          <div class="button-container">
+            <button class="custom-button" (click)="bookVehicle(vehicle)">Забронювати</button>
+            <button class="custom-button" (click)="openEditForm(i)">Редагувати</button>
+            <button class="custom-button" (click)="removeVehicle(vehicle)">Видалити</button>
+          </div>
+        </ion-card-content>
+        <app-edit-vehicle
+          *ngIf="showEditVehicleModal && editIndex === i"
+          [vehicle]="vehicle"
+          (vehicleEdit)="editVehicle($event, i)">
+        </app-edit-vehicle>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

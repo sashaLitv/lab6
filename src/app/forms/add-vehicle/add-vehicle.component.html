@@ -1,0 +1,96 @@
+<div class="form-container">
+  <ion-form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+    <ion-list>
+  
+      <ion-item>
+        <ion-label position="floating" for="id">ID</ion-label>
+        <ion-input type="text" formControlName="id"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="vehicleForm.get('id')?.invalid && vehicleForm.get('id')?.touched">
+        <small *ngIf="vehicleForm.get('id')?.hasError('required')">ID є обов'язковим.</small>
+        <small *ngIf="vehicleForm.get('id')?.hasError('pattern')">ID повинен містити тільки числа.</small>
+      </ion-text>
+  
+      <ion-item>
+        <ion-label position="stacked" for="type">Type</ion-label>
+        <ion-select (ionChange)="OnTypeChange($event.detail.value)" formControlName="type" interface="modal">
+          <ion-select-option *ngFor="let type of types" [value]="type">{{ type }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-text color="danger" *ngIf="vehicleForm.get('type')?.invalid && vehicleForm.get('type')?.touched">
+        <small *ngIf="vehicleForm.get('type')?.hasError('required')">Type є обов'язковим.</small>
+      </ion-text>
+  
+      <ion-item>
+        <ion-label position="floating" for="rentalPrice">Rental Price</ion-label>
+        <ion-input type="number" formControlName="rentalPrice"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="vehicleForm.get('rentalPrice')?.invalid && vehicleForm.get('rentalPrice')?.touched">
+        <small *ngIf="vehicleForm.get('rentalPrice')?.hasError('required')">Rental Price є обов'язковим.</small>
+        <small *ngIf="vehicleForm.get('rentalPrice')?.hasError('min')">Rental Price повинен бути більшим за 0.</small>
+      </ion-text>
+  
+      <ion-item lines="none">
+        <ion-label for="available">Availability</ion-label>
+        <ion-checkbox slot="start" formControlName="available"></ion-checkbox>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label position="stacked" for="lastRentDay">Last Rental Date</ion-label>
+        <ion-input formControlName="lastRentDay" type="date"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="vehicleForm.get('lastRentDay')?.invalid && vehicleForm.get('lastRentDay')?.touched">
+        <small *ngIf="vehicleForm.get('lastRentDay')?.hasError('invalidDate')">Введіть коректну дату.</small>
+      </ion-text>
+
+      <ion-item *ngIf="vehicleForm.get('type')?.value === types[0]">
+        <ion-label for="abs">ABS</ion-label>
+        <ion-checkbox slot="start" formControlName="abs"></ion-checkbox>
+      </ion-item>
+      <ion-text color="danger" *ngIf="vehicleForm.get('abs')?.invalid && vehicleForm.get('abs')?.touched">
+        <small *ngIf="vehicleForm.get('abs')?.hasError('required')">ABS є обов'язковим.</small>
+      </ion-text>
+      
+      <ion-item *ngIf="vehicleForm.get('type')?.value === types[1]">
+        <ion-label position="floating" for="passengerSeats">Passenger Seats</ion-label>
+        <ion-input type="number" formControlName="passengerSeats"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="vehicleForm.get('passengerSeats')?.invalid && vehicleForm.get('passengerSeats')?.touched">
+        <small *ngIf="vehicleForm.get('passengerSeats')?.hasError('required')">Passenger Seats є обов'язковим.</small>
+        <small *ngIf="vehicleForm.get('passengerSeats')?.hasError('min')">Passenger Seats повинен бути більшим за 1.</small>
+        <small *ngIf="vehicleForm.get('passengerSeats')?.hasError('max')">Passenger Seats повинен бути меншим за 8.</small>
+      </ion-text>
+      
+  
+      <ion-item *ngIf="vehicleForm.get('type')?.value === types[2]">
+        <ion-label position="floating" for="cargoCapacity">Cargo Capacity (kg)</ion-label>
+        <ion-input type="number" step="100" formControlName="cargoCapacity"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="vehicleForm.get('cargoCapacity')?.invalid && vehicleForm.get('cargoCapacity')?.touched">
+        <small *ngIf="vehicleForm.get('cargoCapacity')?.hasError('required')">Cargo Capacity є обов'язковим.</small>
+        <small *ngIf="vehicleForm.get('cargoCapacity')?.hasError('min')">Cargo Capacity повинен бути більшим за 100.</small>
+        <small *ngIf="vehicleForm.get('cargoCapacity')?.hasError('max')">Cargo Capacity повинен бути меншим за 100000.</small>
+        <small *ngIf="vehicleForm.get('cargoCapacity')?.hasError('multipleOf')">Cargo Capacity повинен бути кратним 100.</small>
+      </ion-text>
+  
+      <ion-item *ngIf="vehicleForm.get('type')?.value === types[3]">
+        <ion-label position="stacked" for="brakeType">Brake Type</ion-label>
+          <ion-select formControlName="brakeType" interface="modal">
+            <ion-select-option value="Disc">Disc</ion-select-option>
+            <ion-select-option value="Rim">Rim</ion-select-option>
+            <ion-select-option value="Drum">Drum</ion-select-option>
+            <ion-select-option value="Coaster">Coaster</ion-select-option>
+          </ion-select>
+      </ion-item>
+      <ion-text color="danger" *ngIf="vehicleForm.get('brakeType')?.invalid && vehicleForm.get('brakeType')?.touched">
+        <small *ngIf="vehicleForm.get('brakeType')?.hasError('required')">Brake Type є обов'язковим.</small>
+      </ion-text>
+  
+      <div class="button-container">
+        <button expand="block" type="submit" (click)="onSubmit()" [disabled]="vehicleForm.invalid">Submit</button>
+        <button expand="block" type="button" (click)="vehicleForm.reset()">Reset</button>
+      </div>  
+  
+    </ion-list>
+  </ion-form>
+</div>
