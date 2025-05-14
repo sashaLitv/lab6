@@ -1,4 +1,5 @@
 import { Truck } from "./truck";
+import { vehicleType } from "./vehicleName";
 
 describe('Truck class tests', () => {
     let truck: Truck;
@@ -30,7 +31,7 @@ describe('Truck class tests', () => {
     });
 
     fit('should get correct truck type', () => {
-        expect(truck.getType()).toBe('Truck');
+        expect(truck.getType()).toBe(vehicleType[2]);
     });
 
     fit('should get correct truck details', () => {

@@ -1,5 +1,6 @@
 import { Vehicle } from "./vehicle";
 import { IMovable}  from "../interfaces/vehicle.interfaces";
+import { vehicleType } from "./vehicleName";
 
 export class Truck extends Vehicle implements IMovable{
     private cargoCapacity: number; 
@@ -9,6 +10,7 @@ export class Truck extends Vehicle implements IMovable{
         super(id, rentalPrice,  avaliable, lastRentDay);
         this.cargoCapacity = cargoCapacity;
         this.currentCargoCapacity = 0;
+        this.type = vehicleType[2];
     }
 
     getMaxCargoCapacity(): number {
@@ -32,10 +34,6 @@ export class Truck extends Vehicle implements IMovable{
         return `All cargo unloaded! Current cargo weight: ${this.currentCargoCapacity} kg.`;
     }
 
-
-    override getType(): string {
-        return 'Truck';
-    }
     override getDetails(): string[] {
         let details: string[] = super.getDetails(); 
         details.push(`Cargo capacity: ${this.getMaxCargoCapacity()}`);

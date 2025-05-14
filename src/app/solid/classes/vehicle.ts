@@ -1,7 +1,9 @@
 import { IVehicle, IStopable, IAvailability, IRentable} from "../interfaces/vehicle.interfaces";
+import { vehicleType, VehicleType } from "./vehicleName";
 
 export abstract class Vehicle implements IVehicle, IStopable, IAvailability, IRentable {
     private id: number;
+    type: VehicleType;
     private rentalPrice: number;
     private available: boolean;
     private lastRentDay: Date | null;
@@ -11,6 +13,7 @@ export abstract class Vehicle implements IVehicle, IStopable, IAvailability, IRe
         this.rentalPrice = rentalPrice;
         this.available = available;
         this.lastRentDay = lastRentDay || null;
+        this.type = vehicleType[0]
     }
 
     getID(): number {
@@ -19,8 +22,8 @@ export abstract class Vehicle implements IVehicle, IStopable, IAvailability, IRe
     getRentalPrice(): number {
         return this.rentalPrice;
     }
-    getType(): string {
-        return 'Vehicle';
+    getType(): VehicleType{
+        return this.type;
     }
     getDetails(): string[] {
         let details: string[] = [];

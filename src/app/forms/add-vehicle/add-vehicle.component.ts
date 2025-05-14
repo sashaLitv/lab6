@@ -18,7 +18,7 @@ import { IonicModule } from '@ionic/angular';
 })
 export class AddVehicleComponent  implements OnInit {
   vehicleForm: FormGroup;
-  currentType: VehicleType = vehicleType[0];
+  currentType: VehicleType = vehicleType[3];
   types = vehicleType;
 
   @Output() vehicleAdd: EventEmitter<Vehicle> = new EventEmitter<Vehicle>();

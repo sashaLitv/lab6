@@ -1,5 +1,6 @@
 import { Vehicle } from "./vehicle";
 import { IDriftable, IMovable, IWheelieable}  from "../interfaces/vehicle.interfaces";
+import { vehicleType } from "./vehicleName";
 
 export class Motorbike extends Vehicle implements IDriftable, IMovable, IWheelieable{
     // (Антиблокувальна система гальм)
@@ -8,14 +9,11 @@ export class Motorbike extends Vehicle implements IDriftable, IMovable, IWheelie
     constructor(id: number, rentalPrice: number, avaliable: boolean, lastRentDay: Date | null, abs: boolean) {
         super(id, rentalPrice, avaliable, lastRentDay);
         this.abs = abs;
+        this.type = vehicleType[0];
     }
 
     getAbs(){
         return this.abs;
-    }
-
-    override getType(): string {
-        return 'Motorbike';
     }
     override getDetails(): string[] {
         let details: string[] = super.getDetails(); 

@@ -15,7 +15,7 @@ describe('DateValidatorService Test', () => {
     });
 
     fit('should validate a valid date', () => {
-        let str = service.validateDate('2023-11-01');
+        let str = service.validateDate('05-11-2023');
         expect(str).toBe(true);
     });
 

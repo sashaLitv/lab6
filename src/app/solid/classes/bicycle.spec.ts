@@ -1,4 +1,5 @@
 import { Bicycle } from "./bicycle";
+import { vehicleType } from "./vehicleName";
 
 describe('Bicycle class tests', () => {
     let bicycle: Bicycle;
@@ -27,7 +28,7 @@ describe('Bicycle class tests', () => {
     });
 
     fit('should get type correctly', () => {
-        expect(bicycle.getType()).toBe('Bicycle');
+        expect(bicycle.getType()).toBe(vehicleType[3]);
     });
 
     fit('should get details correctly', () => {

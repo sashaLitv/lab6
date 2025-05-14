@@ -14,28 +14,32 @@ export class VehicleFactory {
                     data.rentalPrice, 
                     data.available, 
                     data.lastRentDay ? new Date(data.lastRentDay) : null, 
-                    data.abs);
+                    data.abs
+                );
             case vehicleType[1]:
                 return new PassengerCar(
                     data.id,
                     data.rentalPrice, 
                     data.available, 
                     data.lastRentDay ? new Date(data.lastRentDay) : null,
-                    data.passengerSeats);
+                    data.passengerSeats
+                );
             case vehicleType[2]:
                 return new Truck(
                     data.id, 
                     data.rentalPrice, 
                     data.available, 
                     data.lastRentDay ? new Date(data.lastRentDay) : null,
-                    data.cargoCapacity);
+                    data.cargoCapacity
+                );
             case vehicleType[3]:
                 return new Bicycle(
                     data.id,
                     data.rentalPrice, 
                     data.available, 
                     data.lastRentDay ? new Date(data.lastRentDay) : null,
-                    data.brakeType);
+                    data.brakeType
+                );
             default:
                 throw new Error("Invalid vehicle type!");
         }

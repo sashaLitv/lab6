@@ -11,6 +11,9 @@ import { Truck } from './classes/truck';
 import { PassengerCar } from './classes/passengerCar';
 import { AddVehicleComponent } from '../forms/add-vehicle/add-vehicle.component';
 import { EditProductComponent } from '../forms/edit-vehicle/edit-vehicle.component';
+import { ConfigService } from './services/config.service';
+import { vehicleCombinations,vehicleType, VehicleType } from './classes/vehicleName';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-solid',
@@ -24,12 +27,37 @@ export class SolidPage implements OnInit {
   showAddVehicleModal = false;
   showEditVehicleModal = false;
   editIndex = 0;
+  vehicleType = vehicleType;
 
-  constructor(public vehicleService: VehicleService) {}
+  private configService = new ConfigService();
+  private subscriptions: Subscription[] = [];
+  vehicleService = new VehicleService(this.configService);
+  types: VehicleType[] = vehicleCombinations[0];
+  availability: boolean = true;
+  countType = 0;
+
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.vehicleService.load();
+
+    const typeSub = this.configService.types$.subscribe((types) => {
+      this.types = types;
+    });
+
+    const availabilitySub = this.configService.availability$.subscribe((availability) => {
+      this.availability = availability;
+    });
+
+    this.subscriptions.push(typeSub);
+    this.subscriptions.push(availabilitySub);
   }
+  ngOnDestroy(){
+    this.subscriptions.forEach((s) => s.unsubscribe());
+  }
+
+
 
   bookVehicle(vehicle: Vehicle): void {
     vehicle.setAvailability();
@@ -82,7 +110,6 @@ export class SolidPage implements OnInit {
     this.showAddVehicleModal = !this.showAddVehicleModal;
   }
   addVehicle(vehicle: Vehicle){
-    
     console.log("Метод addVehicle на SolidPage викликано:", vehicle);
     this.vehicleService.addVehicle(vehicle);
     this.showAddVehicleModal = false;
@@ -99,6 +126,25 @@ export class SolidPage implements OnInit {
 
   removeVehicle(vehicle: Vehicle){
     this.vehicleService.removeVehicle(vehicle);
-    console.log(this.vehicleService.vehicles);
+    console.log(this.vehicleService.searchVehicles);
   }
+
+
+
+  nextType(){
+    if(this.countType < vehicleCombinations.length - 1)   this.countType++;
+    else this.countType = 0;
+
+    this.configService.setType(this.countType)
+  }
+
+  nextAvailability(){
+    if(this.availability === false)               this.availability = true;
+    else if (this.availability === true)          this.availability = false;
+
+    this.configService.setAvailability(this.availability)
+  }
+
+  
+
 }

@@ -1,5 +1,6 @@
 import { Vehicle } from "./vehicle";
 import { IDriftable, IMovable } from "../interfaces/vehicle.interfaces";
+import { vehicleType } from "./vehicleName";
 
 export class PassengerCar extends Vehicle implements IDriftable, IMovable {
     private passengerSeats: number;
@@ -9,6 +10,7 @@ export class PassengerCar extends Vehicle implements IDriftable, IMovable {
         super(id, rentalPrice, available, lastRentDay);
         this.passengerSeats = passengerSeats;
         this.availableSeats = passengerSeats; 
+        this.type = vehicleType[1]
     }
 
     getMaxSeats(): number {
@@ -30,9 +32,6 @@ export class PassengerCar extends Vehicle implements IDriftable, IMovable {
         return `All passengers have exited. There are ${this.availableSeats} seats available.`;
     }
 
-    override getType(): string {
-        return 'Passenger Car';
-    }
     override getDetails(): string[] {
         let details: string[] = super.getDetails(); 
         details.push(`Passenger Seats: ${this.getMaxSeats()}`);

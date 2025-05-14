@@ -1,5 +1,6 @@
 import { Vehicle } from "./vehicle";
 import { IRidable, IStopable, IWheelieable } from "../interfaces/vehicle.interfaces";  
+import { vehicleType } from "./vehicleName";
 
 export class Bicycle extends Vehicle implements IRidable, IStopable, IWheelieable{
     private brakeType: string; // Тип гальм (наприклад, "disc", "rim", "hydraulic")
@@ -11,6 +12,7 @@ export class Bicycle extends Vehicle implements IRidable, IStopable, IWheelieabl
         this.brakeType = brakeType;
         this.countRides = 0;
         this.isChainOff = false;
+        this.type = vehicleType[3]
     }
 
     getBrakeType(): string {
@@ -33,10 +35,6 @@ export class Bicycle extends Vehicle implements IRidable, IStopable, IWheelieabl
         this.isChainOff = false;
         this.countRides = 0;
         return "The chain has been reinstalled on the bicycle.";
-    }
-
-    override getType(): string {
-        return 'Bicycle';
     }
 
     override getDetails(): string[] {

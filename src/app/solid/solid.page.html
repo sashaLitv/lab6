@@ -31,29 +31,45 @@
   
   <ion-card>
     <ion-card-header>
-      <ion-card-title class="custom-paragraph"> Прокат транспорту </ion-card-title>
+      <ion-card-title class="custom-paragraph"> Перегляд транспорту </ion-card-title>
     </ion-card-header>
     <ion-card-content class="custom-card-content">
       <h2>В даному розділі ви можете переглянути доступні автомобілі для прокату. <br>
-        Виберіть автомобіль, щоб дізнатися більше про нього та забронювати його.</h2>
-      <ion-card class="image-container" *ngFor="let vehicle of vehicleService.vehicles let i = index">
+        Виберіть автомобіль, щоб дізнатися більше про нього та забронювати його.
+      </h2>
+      <div>
+        <ion-item>
+          <ion-label> Поточний тип: </ion-label>
+          <ion-label> {{ types }} </ion-label>
+          <ion-button class="custom-button" (click)="nextType()">Змінити</ion-button>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label> Доступність: </ion-label>
+          <ion-label> {{ availability }} </ion-label>
+          <ion-button class="custom-button" (click)="nextAvailability()">Змінити</ion-button>
+        </ion-item>
+      </div>
+
+      <ion-card class="image-container" *ngFor="let vehicle of vehicleService.searchVehicles
+      let i = index">
         <ion-img 
-          *ngIf="vehicle.getType() === 'Passenger Car'" 
+          *ngIf="vehicle.getType() === vehicleType[1]" 
           src="../../assets/picture/car.png" class="vehicle-image">
         </ion-img>
       
         <ion-img 
-          *ngIf="vehicle.getType() === 'Truck'" 
+          *ngIf="vehicle.getType() === vehicleType[2]" 
           src="../../assets/picture/truck.png" class="vehicle-image">
         </ion-img>
       
         <ion-img 
-          *ngIf="vehicle.getType() === 'Motorbike'" 
+          *ngIf="vehicle.getType() === vehicleType[0]" 
           src="../../assets/picture/motorbike.png" class="vehicle-image">
         </ion-img>
       
         <ion-img 
-          *ngIf="vehicle.getType() === 'Bicycle'" 
+          *ngIf="vehicle.getType() === vehicleType[3]" 
           src="../../assets/picture/bicycle.png" class="vehicle-image">
         </ion-img>
       
