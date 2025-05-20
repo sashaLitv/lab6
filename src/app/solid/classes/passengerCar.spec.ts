@@ -5,7 +5,7 @@ describe('PassengerCar class tests', () => {
     let passengerCar: PassengerCar;
 
     beforeEach(() => {
-        passengerCar = new PassengerCar(103, 15, true, null, 4);
+        passengerCar = new PassengerCar('103', 15, true, null, 4);
     });
     
     fit('should create', () => {

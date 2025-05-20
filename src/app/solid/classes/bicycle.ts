@@ -7,12 +7,11 @@ export class Bicycle extends Vehicle implements IRidable, IStopable, IWheelieabl
     private countRides: number;
     private isChainOff: boolean; 
 
-    constructor(id: number, rentalPrice: number, available: boolean, lastRentDay: Date | null, brakeType: string) {
+    constructor(id: string, rentalPrice: number, available: boolean, lastRentDay: Date | null, brakeType: string) {
         super(id, rentalPrice, available, lastRentDay);
         this.brakeType = brakeType;
         this.countRides = 0;
         this.isChainOff = false;
-        this.type = vehicleType[3]
     }
 
     getBrakeType(): string {
@@ -41,6 +40,9 @@ export class Bicycle extends Vehicle implements IRidable, IStopable, IWheelieabl
         let details: string[] = super.getDetails(); 
         details.push(`Brake Type: ${this.getBrakeType()}`);
         return details;
+    }
+    override getType(){
+        return vehicleType[3];
     }
 
     doWheelie(): string {

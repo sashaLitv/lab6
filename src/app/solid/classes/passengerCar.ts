@@ -6,11 +6,10 @@ export class PassengerCar extends Vehicle implements IDriftable, IMovable {
     private passengerSeats: number;
     private availableSeats: number;  
 
-    constructor(id: number, rentalPrice: number, available: boolean, lastRentDay: Date | null, passengerSeats: number) {
+    constructor(id: string, rentalPrice: number, available: boolean, lastRentDay: Date | null, passengerSeats: number) {
         super(id, rentalPrice, available, lastRentDay);
         this.passengerSeats = passengerSeats;
         this.availableSeats = passengerSeats; 
-        this.type = vehicleType[1]
     }
 
     getMaxSeats(): number {
@@ -39,6 +38,9 @@ export class PassengerCar extends Vehicle implements IDriftable, IMovable {
     }
     override stop(): string {
         return `The passenger car (${this.getID()}) has stopped.`;
+    }
+    override getType(){
+        return vehicleType[1];
     }
 
     drift(): string {

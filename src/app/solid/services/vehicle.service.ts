@@ -3,6 +3,8 @@ import { Vehicle } from '../classes/vehicle';
 import { VehicleFactory } from '../classes/vehicleFactory';
 import { VehicleType } from '../classes/vehicleName';
 import { ConfigService } from './config.service';
+import { Database, ref, set, push, update, remove, onValue} from '@angular/fire/database';
+import { BehaviorSubject } from 'rxjs';
 
 const API_URL = 'https://api.jsonbin.io/v3/b/67e2c7b78960c979a5781898';
 
@@ -10,27 +12,37 @@ const API_URL = 'https://api.jsonbin.io/v3/b/67e2c7b78960c979a5781898';
   providedIn: 'root'
 })
 export class VehicleService {
-    public vehicles: Vehicle[] = [];
+    public copyVehicles: Vehicle[] = [];
+    private vehicleSubject = new BehaviorSubject<Vehicle[]>([]);
+    vehicles$ = this.vehicleSubject.asObservable();
 
-    constructor(private configService: ConfigService) {}
+    constructor(private configService: ConfigService, private db: Database) {}
 
-    //lab7
     addVehicle(vehicle: Vehicle) {
-        this.vehicles.push(vehicle);
-    }
-    removeVehicle(vehicle: Vehicle) {
-        const index = this.vehicles.findIndex(v => v.getID() === vehicle.getID());
-        if(index !== -1){
-            this.vehicles.splice(index, 1);
-        }
+        const vehiclesRef = ref(this.db, 'vehicles');
+        const newVehicleRef = push(vehiclesRef);
 
-        this.search(this.configService.types$.value, this.configService.availability$.value);
+        set(newVehicleRef, {
+            ...vehicle,
+            id: newVehicleRef.key,
+            type: vehicle.getType()
+        });
     }
+    removeVehicle(vehicleId: string): void {
+       const vehicleRef = ref(this.db, `vehicles/${vehicleId}`)
+       remove(vehicleRef);
+    }
+    editVehicle(updatedVehicle: Vehicle): void {
+        console.log(updatedVehicle);
+        const vehicleRef = ref(this.db, `vehicles/${updatedVehicle.getID()}`);
+        update(vehicleRef, updatedVehicle);
+      }
+
 
     //lab8
     searchVehicles: Vehicle[] = [];
     search(types: VehicleType[], availability: boolean | null) {
-        this.searchVehicles = this.vehicles.filter((vehicle) => {
+        this.searchVehicles = this.copyVehicles.filter((vehicle) => {
             const typeMatch = types.length === 0 || types.includes(vehicle.getType());
             const availabilityMatch = availability === null || vehicle.isAvailable() === availability;
             return typeMatch && availabilityMatch;
@@ -45,23 +57,20 @@ export class VehicleService {
         this.search(this.configService.types$.value, availability);
     });
 
-    public async load() {
-        fetch(API_URL, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-         }).then((res) => res.json())
-        .then((json) =>  {
-            let data;
-            data = json;
-            data = data.record;
-                
-            let vehicles = data.map((item: any) => VehicleFactory.create(item));
-            vehicles.forEach((vehicle: any) => this.addVehicle(vehicle));
+    fetchVehicles() : void {
+        const vehiclesRef = ref(this.db, 'vehicles');
+        console.log(vehiclesRef);
 
-            this.search(this.configService.types$.value, this.configService.availability$.value);
+        onValue(vehiclesRef, (snapshot) =>{
+            const data = snapshot.val();
+
+            const vehicles = data
+                ?
+                    Object.entries(data).map(([key, value]: [string, any]) =>
+                        VehicleFactory.create({...value, id: key})
+                    )
+                : [];
+            this.vehicleSubject.next(vehicles)
         });
-       
     }
 }

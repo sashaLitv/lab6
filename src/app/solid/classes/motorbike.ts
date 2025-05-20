@@ -4,16 +4,15 @@ import { vehicleType } from "./vehicleName";
 
 export class Motorbike extends Vehicle implements IDriftable, IMovable, IWheelieable{
     // (Антиблокувальна система гальм)
-    private abs: boolean;  
+    private Abs: boolean;  
 
-    constructor(id: number, rentalPrice: number, avaliable: boolean, lastRentDay: Date | null, abs: boolean) {
+    constructor(id: string, rentalPrice: number, avaliable: boolean, lastRentDay: Date | null, Abs: boolean) {
         super(id, rentalPrice, avaliable, lastRentDay);
-        this.abs = abs;
-        this.type = vehicleType[0];
+        this.Abs = Abs;
     }
 
     getAbs(){
-        return this.abs;
+        return this.Abs;
     }
     override getDetails(): string[] {
         let details: string[] = super.getDetails(); 
@@ -22,6 +21,9 @@ export class Motorbike extends Vehicle implements IDriftable, IMovable, IWheelie
     }
     override stop(): string {
         return `The motorbike (${this.getID()}) has stopped.`;
+    }
+    override getType(){
+        return vehicleType[0];
     }
 
     drift(): string {

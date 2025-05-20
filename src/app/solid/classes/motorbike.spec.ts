@@ -6,7 +6,7 @@ describe('Motorbike class tests', () => {
     let motorbike: Motorbike;
 
     beforeEach(() => {
-        motorbike = new Motorbike(102, 15, true, null, true); 
+        motorbike = new Motorbike('102', 15, true, null, true); 
     });
 
     fit('should create a motorbike', () => {

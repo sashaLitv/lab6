@@ -8,7 +8,7 @@ export function formConstructor(
     fb: FormBuilder
 ){
     const controlsToRemove = [
-        'abs',
+        'Abs',
         'passengerSeats',
         'cargoCapacity',
         'brakeType'
@@ -22,7 +22,7 @@ export function formConstructor(
 
     switch(type){
         case vehicleType[0]:
-            vehicleForm.addControl('abs', fb.control('', [
+            vehicleForm.addControl('Abs', fb.control('', [
                 Validators.required
             ]));
             break;

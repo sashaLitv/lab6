@@ -5,7 +5,7 @@ describe('Bicycle class tests', () => {
     let bicycle: Bicycle;
 
     beforeEach(() => {
-        bicycle = new Bicycle(101, 5, true, null, 'disc');
+        bicycle = new Bicycle('101', 5, true, null, 'disc');
     });
 
     fit('should create', () => {

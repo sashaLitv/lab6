@@ -1,5 +1,5 @@
 export interface IVehicle {
-    getID(): number;
+    getID(): string;
     getRentalPrice(): number;
 
     getType(): string;

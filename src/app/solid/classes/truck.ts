@@ -6,11 +6,10 @@ export class Truck extends Vehicle implements IMovable{
     private cargoCapacity: number; 
     private currentCargoCapacity: number; 
 
-    constructor(id: number, rentalPrice: number, avaliable: boolean,lastRentDay: Date | null, cargoCapacity: number) {
+    constructor(id: string, rentalPrice: number, avaliable: boolean,lastRentDay: Date | null, cargoCapacity: number) {
         super(id, rentalPrice,  avaliable, lastRentDay);
         this.cargoCapacity = cargoCapacity;
         this.currentCargoCapacity = 0;
-        this.type = vehicleType[2];
     }
 
     getMaxCargoCapacity(): number {
@@ -41,6 +40,9 @@ export class Truck extends Vehicle implements IMovable{
     }
     override stop(): string {
         return `The truck (${this.getID()}) has stopped.`;
+    }
+    override getType(){
+        return vehicleType[2];
     }
     
     move(): string {

@@ -23,24 +23,24 @@ import { Subscription } from 'rxjs';
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MyHeaderComponent, IonicModule, AddVehicleComponent, EditProductComponent],
 })
 export class SolidPage implements OnInit {
-  statusMessages: Map<number, any> = new Map();
+  statusMessages: Map<string, any> = new Map();
   showAddVehicleModal = false;
   showEditVehicleModal = false;
   editIndex = 0;
+  copyVehicles: Vehicle[] = [];
   vehicleType = vehicleType;
+
 
   private configService = new ConfigService();
   private subscriptions: Subscription[] = [];
-  vehicleService = new VehicleService(this.configService);
   types: VehicleType[] = vehicleCombinations[0];
   availability: boolean = true;
   countType = 0;
 
-  constructor() {
-  }
+  constructor(public vehicleService: VehicleService) {}
 
   ngOnInit(): void {
-    this.vehicleService.load();
+    this.vehicleService.fetchVehicles();
 
     const typeSub = this.configService.types$.subscribe((types) => {
       this.types = types;
@@ -50,8 +50,13 @@ export class SolidPage implements OnInit {
       this.availability = availability;
     });
 
+    const vehicleSub = this.vehicleService.vehicles$.subscribe(vehicles => {
+      this.vehicleService.copyVehicles = [...vehicles]; 
+    });
+
     this.subscriptions.push(typeSub);
     this.subscriptions.push(availabilitySub);
+    this.subscriptions.push(vehicleSub);
   }
   ngOnDestroy(){
     this.subscriptions.forEach((s) => s.unsubscribe());
@@ -106,26 +111,25 @@ export class SolidPage implements OnInit {
   }
 
 
-  openAddForm(){
+  addFormShow(){
     this.showAddVehicleModal = !this.showAddVehicleModal;
   }
-  addVehicle(vehicle: Vehicle){
-    console.log("Метод addVehicle на SolidPage викликано:", vehicle);
-    this.vehicleService.addVehicle(vehicle);
+  addVehicle($event: any){
+    this.vehicleService.addVehicle($event);
     this.showAddVehicleModal = false;
   }
 
-  openEditForm(i: number){
+  editFormShow(i: number){
     this.editIndex = i;
     this.showEditVehicleModal = !this.showEditVehicleModal;
   }
   editVehicle($event: any, i: number){
-    this.vehicleService.vehicles[i] = $event;
+    this.vehicleService.editVehicle($event);
     this.showEditVehicleModal = false;
   }
 
   removeVehicle(vehicle: Vehicle){
-    this.vehicleService.removeVehicle(vehicle);
+    this.vehicleService.removeVehicle(vehicle.getID());
     console.log(this.vehicleService.searchVehicles);
   }
 

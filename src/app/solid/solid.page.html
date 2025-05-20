@@ -1,4 +1,4 @@
-<app-my-header name="Лабораторна роботи №6-7"></app-my-header>
+<app-my-header name="Лабораторна роботи №6-8"></app-my-header>
 
 <ion-content>
   <ion-card class="custom-card">
@@ -20,7 +20,7 @@
         Ми намагаємось обробляти заявки як найшвидше.</h2>
 
       <div class="special-container-button" style="background-color: white;">
-        <button class="custom-button" (click)="openAddForm()">Додати</button>
+        <button class="custom-button" (click)="addFormShow()">Додати</button>
       </div>
       <app-add-vehicle
         *ngIf="showAddVehicleModal"
@@ -51,8 +51,7 @@
         </ion-item>
       </div>
 
-      <ion-card class="image-container" *ngFor="let vehicle of vehicleService.searchVehicles
-      let i = index">
+      <ion-card class="image-container" *ngFor="let vehicle of this.vehicleService.copyVehicles let i = index">
         <ion-img 
           *ngIf="vehicle.getType() === vehicleType[1]" 
           src="../../assets/picture/car.png" class="vehicle-image">
@@ -125,7 +124,7 @@
           </div>
           <div class="button-container">
             <button class="custom-button" (click)="bookVehicle(vehicle)">Забронювати</button>
-            <button class="custom-button" (click)="openEditForm(i)">Редагувати</button>
+            <button class="custom-button" (click)="editFormShow(i)">Редагувати</button>
             <button class="custom-button" (click)="removeVehicle(vehicle)">Видалити</button>
           </div>
         </ion-card-content>

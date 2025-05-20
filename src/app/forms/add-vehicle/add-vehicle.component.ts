@@ -16,7 +16,7 @@ import { IonicModule } from '@ionic/angular';
   imports: [FormsModule, ReactiveFormsModule, CommonModule, IonicModule],
   standalone: true,
 })
-export class AddVehicleComponent  implements OnInit {
+export class AddVehicleComponent implements OnInit {
   vehicleForm: FormGroup;
   currentType: VehicleType = vehicleType[3];
   types = vehicleType;
@@ -25,7 +25,6 @@ export class AddVehicleComponent  implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.vehicleForm = this.fb.group({
-      id: ['', [Validators.required, Validators.pattern('^[0-9]+$')]], 
       type: [this.currentType, Validators.required],
       rentalPrice: ['', [Validators.required, Validators.min(1)]],
       available: [true],

@@ -14,7 +14,7 @@ export class VehicleFactory {
                     data.rentalPrice, 
                     data.available, 
                     data.lastRentDay ? new Date(data.lastRentDay) : null, 
-                    data.abs
+                    data.Abs
                 );
             case vehicleType[1]:
                 return new PassengerCar(
