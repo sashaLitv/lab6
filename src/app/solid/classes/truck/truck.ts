@@ -1,6 +1,6 @@
-import { Vehicle } from "./vehicle";
-import { IMovable}  from "../interfaces/vehicle.interfaces";
-import { vehicleType } from "./vehicleName";
+import { Vehicle } from "../vehicle";
+import { IMovable}  from "../../interfaces/vehicle.interfaces";
+import { vehicleType } from "../vehicleName";
 
 export class Truck extends Vehicle implements IMovable{
     private cargoCapacity: number; 

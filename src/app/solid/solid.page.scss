@@ -67,6 +67,13 @@ h2 {
     animation: fadeInUp 1s ease-out;
 }
 
+ion-item .select-type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+  }
+
 @keyframes fadeInUp {
     from {
         opacity: 0;

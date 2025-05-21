@@ -1,5 +1,5 @@
 import { IVehicle, IStopable, IAvailability, IRentable} from "../interfaces/vehicle.interfaces";
-import { vehicleType, VehicleType } from "./vehicleName";
+import { VehicleType } from "./vehicleName";
 
 export abstract class Vehicle implements IVehicle, IStopable, IAvailability, IRentable {
     private id: string;

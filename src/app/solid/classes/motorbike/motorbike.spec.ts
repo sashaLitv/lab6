@@ -1,6 +1,5 @@
 import { Motorbike } from "./motorbike";
-import { Vehicle } from "./vehicle";
-import { vehicleType } from "./vehicleName";
+import { vehicleType } from "../vehicleName";
 
 describe('Motorbike class tests', () => {
     let motorbike: Motorbike;

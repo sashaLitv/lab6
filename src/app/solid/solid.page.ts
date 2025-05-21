@@ -5,10 +5,10 @@ import { IonicModule } from '@ionic/angular';
 import { MyHeaderComponent } from '../my-header/my-header.component';
 import { VehicleService } from './services/vehicle.service';
 import { Vehicle } from './classes/vehicle';
-import { Motorbike } from './classes/motorbike';
-import { Bicycle } from './classes/bicycle';
-import { Truck } from './classes/truck';
-import { PassengerCar } from './classes/passengerCar';
+import { Motorbike } from './classes/motorbike/motorbike';
+import { Bicycle } from './classes/bicycle/bicycle';
+import { Truck } from './classes/truck/truck';
+import { PassengerCar } from './classes/passengerCar/passengerCar';
 import { AddVehicleComponent } from '../forms/add-vehicle/add-vehicle.component';
 import { EditProductComponent } from '../forms/edit-vehicle/edit-vehicle.component';
 import { ConfigService } from './services/config.service';
@@ -29,15 +29,15 @@ export class SolidPage implements OnInit {
   editIndex = 0;
   copyVehicles: Vehicle[] = [];
   vehicleType = vehicleType;
+  selectedTypes: VehicleType[] = []; 
 
 
-  private configService = new ConfigService();
   private subscriptions: Subscription[] = [];
   types: VehicleType[] = vehicleCombinations[0];
   availability: boolean = true;
   countType = 0;
 
-  constructor(public vehicleService: VehicleService) {}
+  constructor(public vehicleService: VehicleService, private configService: ConfigService ) {}
 
   ngOnInit(): void {
     this.vehicleService.fetchVehicles();
@@ -77,7 +77,6 @@ export class SolidPage implements OnInit {
     }
   
   }
-
   callSpecialFunction(functionName: string, vehicle: Vehicle): void {
     const actions: Record<string, () => any> = {
       move: () => (vehicle instanceof Motorbike || vehicle instanceof PassengerCar || vehicle instanceof Truck)? vehicle.move() : null,
@@ -111,6 +110,7 @@ export class SolidPage implements OnInit {
   }
 
 
+
   addFormShow(){
     this.showAddVehicleModal = !this.showAddVehicleModal;
   }
@@ -118,6 +118,8 @@ export class SolidPage implements OnInit {
     this.vehicleService.addVehicle($event);
     this.showAddVehicleModal = false;
   }
+
+
 
   editFormShow(i: number){
     this.editIndex = i;
@@ -128,9 +130,41 @@ export class SolidPage implements OnInit {
     this.showEditVehicleModal = false;
   }
 
+
+
   removeVehicle(vehicle: Vehicle){
     this.vehicleService.removeVehicle(vehicle.getID());
-    console.log(this.vehicleService.searchVehicles);
+    console.log(this.vehicleService.copyVehicles);
+  }
+
+  
+
+  addVehicleType(){
+    console.log('Додаємо новий тип...');
+  }
+
+
+
+  selectType(event: any) {
+    const selected = event.detail.value as VehicleType[];
+    this.selectedTypes = selected;
+    
+    const combinationIndex = this.findCombinationIndex(selected);
+    
+    if (combinationIndex !== -1) {
+      this.configService.setType(combinationIndex);
+    }
+  }
+  private findCombinationIndex(selected: VehicleType[]): number {
+    const sortedSelected = [...selected].sort();
+    
+    return vehicleCombinations.findIndex(combination => {
+      const sortedCombination = [...combination].sort();
+      return (
+        sortedCombination.length === sortedSelected.length &&
+        sortedCombination.every((val, index) => val === sortedSelected[index])
+      );
+    });
   }
 
 
@@ -140,15 +174,12 @@ export class SolidPage implements OnInit {
     else this.countType = 0;
 
     this.configService.setType(this.countType)
+    this.selectedTypes = this.types;
   }
-
   nextAvailability(){
     if(this.availability === false)               this.availability = true;
     else if (this.availability === true)          this.availability = false;
 
     this.configService.setAvailability(this.availability)
   }
-
-  
-
 }

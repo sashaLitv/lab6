@@ -1,5 +1,5 @@
 import { PassengerCar } from "./passengerCar";
-import { vehicleType } from "./vehicleName";
+import { vehicleType } from "../vehicleName";
 
 describe('PassengerCar class tests', () => {
     let passengerCar: PassengerCar;

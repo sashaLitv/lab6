@@ -1,6 +1,6 @@
-import { Vehicle } from "./vehicle";
-import { IDriftable, IMovable, IWheelieable}  from "../interfaces/vehicle.interfaces";
-import { vehicleType } from "./vehicleName";
+import { Vehicle } from "../vehicle";
+import { IDriftable, IMovable, IWheelieable}  from "../../interfaces/vehicle.interfaces";
+import { vehicleType } from "../vehicleName";
 
 export class Motorbike extends Vehicle implements IDriftable, IMovable, IWheelieable{
     // (Антиблокувальна система гальм)

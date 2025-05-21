@@ -39,11 +39,19 @@
       </h2>
       <div>
         <ion-item>
-          <ion-label> Поточний тип: </ion-label>
+          <ion-label> Поточна категорія: </ion-label>
           <ion-label> {{ types }} </ion-label>
           <ion-button class="custom-button" (click)="nextType()">Змінити</ion-button>
         </ion-item>
-  
+        <ion-item>
+          <ion-select (ionChange)="selectType($event)" [value]="selectedTypes" multiple="true"  placeholder="Оберіть категорію" interface="modal">
+            <ion-select-option *ngFor="let type of vehicleType" [value]="type">{{ type }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label> Не знайшли потрібну категорію? </ion-label>
+          <ion-button class="custom-button" (click)="addVehicleType()">Додати</ion-button>
+        </ion-item>
         <ion-item>
           <ion-label> Доступність: </ion-label>
           <ion-label> {{ availability }} </ion-label>
@@ -51,7 +59,7 @@
         </ion-item>
       </div>
 
-      <ion-card class="image-container" *ngFor="let vehicle of this.vehicleService.copyVehicles let i = index">
+      <ion-card class="image-container" *ngFor="let vehicle of this.vehicleService.searchVehicles let i = index">
         <ion-img 
           *ngIf="vehicle.getType() === vehicleType[1]" 
           src="../../assets/picture/car.png" class="vehicle-image">

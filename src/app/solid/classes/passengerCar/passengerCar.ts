@@ -1,6 +1,6 @@
-import { Vehicle } from "./vehicle";
-import { IDriftable, IMovable } from "../interfaces/vehicle.interfaces";
-import { vehicleType } from "./vehicleName";
+import { Vehicle } from "../vehicle";
+import { IDriftable, IMovable } from "../../interfaces/vehicle.interfaces";
+import { vehicleType } from "../vehicleName";
 
 export class PassengerCar extends Vehicle implements IDriftable, IMovable {
     private passengerSeats: number;

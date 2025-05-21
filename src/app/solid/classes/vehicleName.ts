@@ -4,7 +4,7 @@ export const vehicleType: ReadonlyArray<VehicleType> = [
     "Motorbike", 
     "Passenger Car", 
     "Truck",
-    "Bicycle"
+    "Bicycle",
 ] as const;
 
 function generateCombinations<T>(arr: T[]): T[][] {

@@ -1,6 +1,6 @@
-import { Vehicle } from "./vehicle";
-import { IRidable, IStopable, IWheelieable } from "../interfaces/vehicle.interfaces";  
-import { vehicleType } from "./vehicleName";
+import { Vehicle } from "../vehicle";
+import { IRidable, IStopable, IWheelieable } from "../../interfaces/vehicle.interfaces";  
+import { vehicleType } from "../vehicleName";
 
 export class Bicycle extends Vehicle implements IRidable, IStopable, IWheelieable{
     private brakeType: string; // Тип гальм (наприклад, "disc", "rim", "hydraulic")

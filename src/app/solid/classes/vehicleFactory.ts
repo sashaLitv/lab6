@@ -1,9 +1,10 @@
 import { Vehicle } from "./vehicle";
-import { Bicycle } from "./bicycle";
-import { Motorbike } from "./motorbike";
-import { PassengerCar } from "./passengerCar";
-import { Truck } from "./truck";
+import { Motorbike } from "./motorbike/motorbike";
+import { PassengerCar } from "./passengerCar/passengerCar";
+import { Truck } from "./truck/truck";
+import { Bicycle } from "./bicycle/bicycle";
 import { vehicleType } from "./vehicleName";
+import { GenericVehicle } from "./genericType/genericVehicle";
 
 export class VehicleFactory {   
     public static create(data: any): Vehicle{
@@ -41,7 +42,13 @@ export class VehicleFactory {
                     data.brakeType
                 );
             default:
-                throw new Error("Invalid vehicle type!");
+                return new GenericVehicle(
+                    data.id,
+                    data.rentalPrice, 
+                    data.available, 
+                    data.lastRentDay ? new Date(data.lastRentDay) : null,
+                    data.nameType
+                );
         }
     }
 }

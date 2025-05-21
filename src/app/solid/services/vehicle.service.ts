@@ -6,17 +6,27 @@ import { ConfigService } from './config.service';
 import { Database, ref, set, push, update, remove, onValue} from '@angular/fire/database';
 import { BehaviorSubject } from 'rxjs';
 
-const API_URL = 'https://api.jsonbin.io/v3/b/67e2c7b78960c979a5781898';
-
 @Injectable({
   providedIn: 'root'
 })
 export class VehicleService {
     public copyVehicles: Vehicle[] = [];
+    public searchVehicles: Vehicle[] = [];
     private vehicleSubject = new BehaviorSubject<Vehicle[]>([]);
     vehicles$ = this.vehicleSubject.asObservable();
 
-    constructor(private configService: ConfigService, private db: Database) {}
+    private typeSub: any;
+    private availabilitySub: any;
+
+    constructor(private configService: ConfigService, private db: Database) {
+        this.typeSub = this.configService.types$.subscribe((types) => {
+            this.search(types, this.configService.availability$.value);
+        });
+        
+        this.availabilitySub = this.configService.availability$.subscribe((availability) => {
+            this.search(this.configService.types$.value, availability);
+        });
+    }
 
     addVehicle(vehicle: Vehicle) {
         const vehiclesRef = ref(this.db, 'vehicles');
@@ -36,11 +46,8 @@ export class VehicleService {
         console.log(updatedVehicle);
         const vehicleRef = ref(this.db, `vehicles/${updatedVehicle.getID()}`);
         update(vehicleRef, updatedVehicle);
-      }
+    }
 
-
-    //lab8
-    searchVehicles: Vehicle[] = [];
     search(types: VehicleType[], availability: boolean | null) {
         this.searchVehicles = this.copyVehicles.filter((vehicle) => {
             const typeMatch = types.length === 0 || types.includes(vehicle.getType());
@@ -48,14 +55,6 @@ export class VehicleService {
             return typeMatch && availabilityMatch;
         });
     }
-
-    typeSub = this.configService.types$.subscribe((types) => {
-        this.search(types, this.configService.availability$.value);
-    });
-    
-    availabilitySub = this.configService.availability$.subscribe((availability) => {
-        this.search(this.configService.types$.value, availability);
-    });
 
     fetchVehicles() : void {
         const vehiclesRef = ref(this.db, 'vehicles');
@@ -71,6 +70,7 @@ export class VehicleService {
                     )
                 : [];
             this.vehicleSubject.next(vehicles)
+            this.search(this.configService.types$.value, this.configService.availability$.value);
         });
     }
 }

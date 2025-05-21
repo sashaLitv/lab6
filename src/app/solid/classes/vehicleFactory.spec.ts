@@ -1,8 +1,9 @@
 import { VehicleFactory } from "./vehicleFactory";
-import { Motorbike } from "./motorbike";
-import { PassengerCar } from "./passengerCar";
-import { Truck } from "./truck";
-import { Bicycle } from "./bicycle";
+import { Motorbike } from "./motorbike/motorbike";
+import { PassengerCar } from "./passengerCar/passengerCar";
+import { Truck } from "./truck/truck";
+import { Bicycle } from "./bicycle/bicycle";
+import { GenericVehicle } from "./genericType/genericVehicle";
 
 describe("VehicleFactory class tests", () => {
 
@@ -70,14 +71,19 @@ describe("VehicleFactory class tests", () => {
         expect((vehicle as Bicycle).getBrakeType()).toBe("disc");
     });
 
-    fit("should throw an error for an invalid vehicle type", () => {
-        expect(() => VehicleFactory.create({
-            type: "Bus",
+    fit("should create a GenericVehicle for an unknown type", () => {
+        const vehicle = VehicleFactory.create({
+            type: "Bus", // новий динамічний тип
             id: '5',
             rentalPrice: 300,
             available: true,
-            passengerSeats: 60
-        })).toThrowError("Invalid vehicle type!");
+            nameType: "Bus"
+        });
+    
+        expect(vehicle).toBeTruthy();
+        expect(vehicle instanceof GenericVehicle).toBeTrue();
+        expect((vehicle as GenericVehicle).getNameType()).toBe("Bus");
+        expect(vehicle.getID()).toBe("5");
     });
 
 });
