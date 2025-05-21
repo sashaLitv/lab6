@@ -12,8 +12,9 @@ import { PassengerCar } from './classes/passengerCar/passengerCar';
 import { AddVehicleComponent } from '../forms/add-vehicle/add-vehicle.component';
 import { EditProductComponent } from '../forms/edit-vehicle/edit-vehicle.component';
 import { ConfigService } from './services/config.service';
-import { vehicleCombinations,vehicleType, VehicleType } from './classes/vehicleName';
+import { vehicleCombinations, vehicleType, VehicleType } from './classes/vehicleName';
 import { Subscription } from 'rxjs';
+import { TypeService } from './services/type.service';
 
 @Component({
   selector: 'app-solid',
@@ -22,6 +23,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MyHeaderComponent, IonicModule, AddVehicleComponent, EditProductComponent],
 })
+
 export class SolidPage implements OnInit {
   statusMessages: Map<string, any> = new Map();
   showAddVehicleModal = false;
@@ -37,23 +39,23 @@ export class SolidPage implements OnInit {
   availability: boolean = true;
   countType = 0;
 
-  constructor(public vehicleService: VehicleService, private configService: ConfigService ) {}
+  constructor(public vehicleService: VehicleService, private configService: ConfigService, public typeService: TypeService) {}
 
-  ngOnInit(): void {
+  ngOnInit(){
     this.vehicleService.fetchVehicles();
-
+  
     const typeSub = this.configService.types$.subscribe((types) => {
       this.types = types;
     });
-
+  
     const availabilitySub = this.configService.availability$.subscribe((availability) => {
       this.availability = availability;
     });
-
+  
     const vehicleSub = this.vehicleService.vehicles$.subscribe(vehicles => {
       this.vehicleService.copyVehicles = [...vehicles]; 
     });
-
+  
     this.subscriptions.push(typeSub);
     this.subscriptions.push(availabilitySub);
     this.subscriptions.push(vehicleSub);
@@ -139,10 +141,12 @@ export class SolidPage implements OnInit {
 
   
 
-  addVehicleType(){
-    console.log('Додаємо новий тип...');
+  addVehicleType() {
+    this.typeService.addVehicleType();
   }
-
+  deleteVehicleType() {
+   this.typeService.deleteVehicleType();
+  }
 
 
   selectType(event: any) {

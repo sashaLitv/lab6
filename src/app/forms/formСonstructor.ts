@@ -54,7 +54,7 @@ export function formConstructor(
             break;
 
         default:
-            console.error('Unknown vehicle type:', type);
+            console.error('New Type?:', type);
             break;  
     }
 }

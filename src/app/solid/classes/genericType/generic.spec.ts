@@ -5,7 +5,7 @@ describe('GenericVehicle', () => {
   let vehicle: GenericVehicle;
 
   beforeEach(() => {
-    vehicle = new GenericVehicle('123ABC', 100, true, null, 'Hovercar');
+    vehicle = new GenericVehicle('123ABC', 100, true, null);
   });
 
   fit('should create an instance', () => {
@@ -16,12 +16,8 @@ describe('GenericVehicle', () => {
     expect(vehicle.getID()).toBe('123ABC');
   });
 
-  fit('should return correct name type', () => {
-    expect(vehicle.getNameType()).toBe('Hovercar');
-  });
-
   fit('should return correct type from vehicleType', () => {
-    expect(vehicle.getType()).toBe(vehicleType[4]); // "Generic"
+    expect(vehicle.getType()).toBe("Hovercar"); 
   });
 
   fit('should move correctly', () => {
@@ -34,7 +30,6 @@ describe('GenericVehicle', () => {
 
   fit('should return correct details', () => {
     const details = vehicle.getDetails();
-    expect(details).toContain('Name Type: Hovercar');
     expect(details.length).toBeGreaterThan(0);
   });
 });

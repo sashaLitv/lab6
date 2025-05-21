@@ -47,7 +47,7 @@ export class VehicleFactory {
                     data.rentalPrice, 
                     data.available, 
                     data.lastRentDay ? new Date(data.lastRentDay) : null,
-                    data.nameType
+                    data.type
                 );
         }
     }

@@ -1,13 +1,13 @@
-export type VehicleType = "Motorbike" | "Passenger Car" | "Truck" | "Bicycle";
+export type VehicleType = string;
 
-export const vehicleType: ReadonlyArray<VehicleType> = [
+export const vehicleType: VehicleType[] = [
     "Motorbike", 
     "Passenger Car", 
     "Truck",
     "Bicycle",
-] as const;
+];
 
-function generateCombinations<T>(arr: T[]): T[][] {
+export function generateCombinations<T>(arr: T[]): T[][] {
     const result: T[][] = [];
   
     const total = 1 << arr.length; 
@@ -26,5 +26,3 @@ function generateCombinations<T>(arr: T[]): T[][] {
 }
 
 export const vehicleCombinations: VehicleType[][] = generateCombinations([...vehicleType]);
-
-console.log(vehicleCombinations);

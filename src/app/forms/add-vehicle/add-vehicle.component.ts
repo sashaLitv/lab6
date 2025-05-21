@@ -41,6 +41,10 @@ export class AddVehicleComponent implements OnInit {
     formConstructor(this.currentType, this.vehicleForm, this.fb);
   }
 
+  isPredefinedType(type: string): boolean {
+    return this.types.indexOf(type) >= 0 && this.types.indexOf(type) <= 3;
+  }
+
   onSubmit(): void {
     if(this.vehicleForm.valid) {
       const formData = this.vehicleForm.value;

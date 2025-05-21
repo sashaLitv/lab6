@@ -82,7 +82,7 @@ describe("VehicleFactory class tests", () => {
     
         expect(vehicle).toBeTruthy();
         expect(vehicle instanceof GenericVehicle).toBeTrue();
-        expect((vehicle as GenericVehicle).getNameType()).toBe("Bus");
+        expect((vehicle as GenericVehicle).getType()).toBe("Bus");
         expect(vehicle.getID()).toBe("5");
     });
 
